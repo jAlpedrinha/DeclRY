@@ -1,0 +1,63 @@
+{% load i18n view_tag %}
+<table class="table schedule">
+	<thead>
+		<tr>
+			{% for header in headers%}
+				<th {% if forloop.counter > 1 %} class="day" {% endif %}>{{header}}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for frame in time_frames %}
+			<tr>
+				<th style="text-align: center; vertical-align: middle;">{{frame.title}}</th>
+				{% for items in frame.items %}
+					<td class="schedule-item" style="text-align: center; vertical-align: middle;">
+
+						{% block actions %}
+						{% endblock actions %}
+						{% for item in items %}
+							
+							{% block item %}
+								<div class="clearfix">
+									<div>
+										<a href="{{item.schedule.turma_disciplina.get_absolute_url}}">
+											{{item.schedule.turma_disciplina.display_name | ellipsis:12}}
+										</a>
+									</div>
+									<div class="classgroup">
+										<a href="{{item.schedule.turma_disciplina.turma.get_absolute_url}}">
+											{{item.schedule.turma_disciplina.turma}}
+										</a>
+									</div>
+									<div class="badge-container">
+										{% if item.lesson %}
+											{% if item.lesson.falta %}
+												<a href="{{item.lesson.get_absolute_url}}">
+													<span class="badge badge-important">{% trans 'F' %}</span>
+												</a>
+											{% else %}
+												<a {% if item.lesson|can_edit:instance %}href="{{item.lesson.get_absolute_url}}edit"{% else %}href="{{item.lesson.get_absolute_url}}"{% endif %}>
+													{% if show_status %}
+														<span class="badge badge-{{item.lesson.display_label}}">#{{item.lesson.number}}</span>
+													{% else %}
+														<span class="badge badge-info">#{{item.lesson.number}}</span>
+													{% endif %}
+												</a>
+											{% endif %}
+										{% elif item.schedule.turma_disciplina.is_modular or item.schedule.turma_disciplina.is_cef %}
+											<a href="{{item.schedule.turma_disciplina.get_absolute_url}}next_lessons?frame={{item.schedule.tempo.pk}}">
+												<span class="badge badge-{{item.schedule.display_label}}">{% trans '?' %}</span>
+											</a>
+										{% endif %}
+									</div>
+								</div>
+							{% endblock item %}
+						{% endfor %}
+					</td>
+				{% endfor %}
+				
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

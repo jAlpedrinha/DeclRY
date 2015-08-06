@@ -1,0 +1,68 @@
+
+{% extends "base_app.html" %}
+{% load admin_urls view_tag %}
+{% load i18n staticfiles %}
+{% block title %} 
+{% trans 'View' %} {% get_module_name %} {% trans 'Details' %}- {{instance}} 
+{% endblock %}
+
+
+{% block content %}
+
+<div id="content-main">
+
+{% instance_card %}
+<hr style="margin:0px 0px 10px">
+
+	<div class="row-fluid">
+		<div class="box span12">
+			<div class="header">
+                {% if active_page.icon %}
+				    <i class="{{ active_page.icon }}"></i>
+                {% else %}
+                    <i class="icon-user"></i>
+                {% endif %}
+				<span class="break"></span>
+				<span class="title">{{active_page.label}}</span>
+			</div>
+			<div class="box-content">
+				{{active_page}}
+				
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="offset8 span4">
+			<div class="row-fluid">
+				{% for edit_url in edit_urls %}
+					<div class="span4">
+						<a href="{{edit_url.1}}" class="btn btn-small btn-primary "> 
+							{{edit_url.0}}
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content%}
+{% block sidebar %}
+<div class="side-image">
+	{% instance_photo %}
+</div>
+<div class="menu" >
+	<ul class="nav nav-list">
+		<li class="nav-header"> {% get_module_name %} </li>
+		{% for page in pages %}
+			<li {% if page.name == active_page.name %} class="active" {% endif %}>
+				<a href="detail?page={{page.name}}"> {{page.label}}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+
+
+{% endblock %}
+{% block javascript %}
+
+{% endblock javascript %}

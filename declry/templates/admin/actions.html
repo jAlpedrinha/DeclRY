@@ -1,0 +1,29 @@
+{% load i18n %}
+<div class="actions">
+    <div class="btn-group">
+        <button class="btn btn-primary" id='action-show'>
+          {% trans 'Select Action' %}
+        </button>
+        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            {% for choice in action_form.fields.action.choices %}
+                {% if choice.0 %}
+                <li><a data-value="{{choice.0}}" class="action-choice"> {{choice.1}}</a> </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <button type="submit" class="btn btn-primary button" title="{% trans "Run the selected action" %}" id='action-button' name="index" value="{{ action_index|default:0 }}">
+      {% trans 'Select Action' %}
+    </button>
+    {{action_form.action.as_hidden}}
+    <div>
+        
+        {% if actions_selection_counter %}
+            <script type="text/javascript">var _actions_icnt="{{ cl.result_list|length|default:"0" }}";</script>
+            <span class="action-counter">{{ selection_note }}</span>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,29 @@
+
+{% load staticfiles %} 
+
+<div class="row-fluid">
+	<div class="span11">
+        <div class="card">
+            <div class="title">
+                <a href="{{instance.get_absolute_url}}">
+                    {% block name %}
+                        {{instance}}
+                    {% endblock name %}
+                </a>
+            </div>
+            <div class="details" >
+                {% block details %}
+                {% endblock details %}
+            </div>
+        </div>
+	</div>
+	<div class="span1" class="card-delete">
+		{% if can_delete and delete_url %}	
+			{% block delete_url %}
+				<a class="btn btn-danger" href="{{delete_url}}">
+					<i class="icon icon-remove"></i>
+				</a>
+			{% endblock delete_url %}	
+		{% endif %}
+	</div>
+</div>

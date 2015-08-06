@@ -1,0 +1,13 @@
+{% extends "base_app.html" %}
+{% load getattr_tag %}
+{% load staticfiles %} 
+{% block header%}
+	<script type="text/javascript" src="{% static "js/SVGPan.js" %}"></script>
+{% endblock %}
+{% block content %}
+<div id="div1" style="height: 600px;position:relative;border: 1px solid silver;">
+    <div id="div2" style="max-height:100%;overflow:auto;">
+        <div id="div3" style="height:100%;">{{ svg_data }}</div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,19 @@
+
+<table class="table table-hover">
+	<tr>
+		{% for field in labels %}
+			<th style="text-align: center;">{{field}}</th>
+		{% endfor %}
+	</tr>
+	{% for instance in instances %}
+		{% for field_group in instance.groups %}
+			{% for field in field_group.fields %}
+				<tr>
+					<td style="text-align: left;">
+						{{field.value}}
+					</td>
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	{% endfor %}
+</table>

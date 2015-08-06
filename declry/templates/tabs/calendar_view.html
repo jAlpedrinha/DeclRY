@@ -1,0 +1,48 @@
+{% load i18n %}
+<div class="panel row-fluid">
+	<div style="text-align: center"  class="span2">
+		<a class="btn btn-primary" href="{{ current_url }}&amp;month={{month|add:"-1"}}">{% trans 'Previous' %}</a>
+	</div>
+	<div style="text-align: center" class="span8 title">
+		{{month_label}}
+	</div>
+	<div style="text-align: center" class="span2">
+		<a class="btn btn-primary" href="{{ current_url }}&amp;month={{month|add:"1"}}">{% trans 'Next' %}</a>
+	</div>
+</div>
+<table class="table schedule calendar">
+	<thead>
+		<tr>
+			<th>{% trans 'Monday' %} </th>
+			<th>{% trans 'Tuesday' %} </th>
+			<th>{% trans 'Wednesday' %} </th>
+			<th>{% trans 'Thursday' %} </th>
+			<th>{% trans 'Friday' %} </th>
+			<th>{% trans 'Saturday' %} </th>
+			<th>{% trans 'Sunday' %} </th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for week in weeks %}
+			<tr>
+				{% for day in week.days %}
+					<td>
+						<div class="action">
+							{% block action %}
+								
+							{% endblock %}
+						</div>
+						<div class="day-label">
+							{{day.date.day}}
+						</div>
+						<div class="elements">
+							{% for element in day.elements %}
+								{{element}}
+							{% endfor %}
+						</div>
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

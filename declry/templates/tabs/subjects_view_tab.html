@@ -1,0 +1,15 @@
+<table class="table">
+	<tr>
+		<th style="text-align: center;">Turma</th>
+		<th style="text-align: center;">Disciplina</th>
+	</tr>
+	{% for instance in instances %}
+		<tr>
+			<td style="text-align: center;">
+				<a href="{{instance.instance.turma.get_absolute_url}}">{{instance.instance.turma}}</a>
+			</td>
+			<td style="text-align: center;">{{instance.instance.disciplina}}</td>
+			
+		</tr>
+	{% endfor %}
+</table>

@@ -1,0 +1,40 @@
+{% load i18n %}
+{% block css %}
+<style type="text/css">
+	.autocomplete {
+		width:93%;
+	}
+</style>
+{% endblock %}
+<div class="filter">
+
+	<ul class="nav nav-list">
+
+		<li class="nav-header">{% blocktrans with filter_title=title %} {{ filter_title }} {% endblocktrans %}</li>
+		{% for choice in choices %}
+			{% if not choice.dynamic %}
+				<li class="action {% if choice.selected %} active{% endif %}">
+					<a href="{{ choice.query_string|iriencode }}">{{ choice.display }}</a>
+				</li>
+			{% elif choice.selected and spec.display_value %}
+				<li class="action active">
+					<a href="#">{{ spec.display_value }}</a>
+				</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+	
+</div>
+{{spec.widget}}
+{% block javascript %}
+<script type="text/javascript">
+{% for choice in choices %}
+	{% if choice.dynamic %}
+		var url{{spec.parameter_name}} = "{{ choice.query_string|safe }}"
+	{% endif %}
+{% endfor %}
+$('.{{spec.parameter_name}}').bind('selectChoice', function(e, choice, autocomplete) {
+    window.location.href = url{{spec.parameter_name}}.replace('___value___', choice.attr('data-value'))
+});
+</script>
+{% endblock %}

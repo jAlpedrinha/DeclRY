@@ -1,0 +1,42 @@
+{% load i18n %} 
+
+{% block javascript %}
+<script type="text/javascript">
+$(function() {
+	$('.fieldgroup').on('hide', function () {
+		$('#icon-' + $(this).attr('id')).removeClass('icon-arrow-up')
+		$('#icon-' + $(this).attr('id')).addClass('icon-arrow-down')
+	})
+	$('.fieldgroup').on('show', function () {
+		$('#icon-' + $(this).attr('id')).removeClass('icon-arrow-down')
+		$('#icon-' + $(this).attr('id')).addClass('icon-arrow-up')
+	})
+})
+</script>
+
+{% endblock %}
+<table class="table detail-table">
+{% for field_group in groups %}
+	<tr class="main-row">
+		{% if not field_group.name %}
+			<th style="vertical-align:middle;text-align: center;" rowspan="{{field_group.fields | length }}">{% trans 'Global' %}</th>
+		{% else %}	
+			<th style="vertical-align:middle;text-align: center;" rowspan="{{field_group.fields | length }}">{% trans field_group.name %}</th>
+		{% endif %}
+
+		{% for field in field_group.fields %}
+			{% if forloop.counter > 1 %}
+				<tr>
+			{% endif %}
+					<td style="width:20%;text-align: right;">
+						{{field.label}}
+					</td>
+					<td style="text-align:left;padding-left:10px;" >
+						{{field.value}}
+					</td>
+				</tr>
+			
+		{% endfor %}
+	
+{% endfor %}
+</table>

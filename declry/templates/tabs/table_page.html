@@ -1,0 +1,17 @@
+{% load view_tag %}
+<table class="table table-hover">
+	<tr>
+		{% for field in labels %}
+		<th style="text-align: center;">{{field}}</th>
+		{% endfor %}
+	</tr>
+	{% for instance in instances %}
+			{% for field in fields %}
+				<tr>
+					<td style="text-align: left;">
+						{{instance|dict_get:field}}
+					</td>
+				</tr>
+			{% endfor %}
+	{% endfor %}
+</table>

@@ -1,0 +1,17 @@
+{% block javascript %}
+{% endblock javascript %}
+<div class="box {{color}}">
+	<div class="header">
+		<i class="{{ icon }}"></i>
+		<span class="break"></span>
+		<span class="title">{{name}}</span>
+	</div>
+	<div class="box-content">
+		{% if error %}
+			{{error}}
+		{% else %}
+			{% block widget %}
+			{% endblock widget %}
+		{% endif %}
+	</div>
+</div>

@@ -1,0 +1,28 @@
+
+{% load i18n %} 
+
+{% block javascript %}
+<script type="text/javascript">
+$(function() {
+	$('.fieldgroup').on('hide', function () {
+		$('#icon-' + $(this).attr('id')).removeClass('icon-arrow-up')
+		$('#icon-' + $(this).attr('id')).addClass('icon-arrow-down')
+	})
+	$('.fieldgroup').on('show', function () {
+		$('#icon-' + $(this).attr('id')).removeClass('icon-arrow-down')
+		$('#icon-' + $(this).attr('id')).addClass('icon-arrow-up')
+	})
+})
+</script>
+
+{% endblock %}
+{% for field_group in groups %}
+	
+	{% for field in field_group.fields %}
+		<div class="row-fluid">
+			<span class="span3" style="text-align: right;"><strong>{{field.label}}</strong></span>
+
+			<span class="span9">{{field.value}}</span>
+		</div>
+	{% endfor %}
+{% endfor %}

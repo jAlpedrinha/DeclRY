@@ -1,0 +1,13 @@
+{% load i18n %}
+<div class="span12 filter" >
+	
+	<ul class="nav nav-list">
+
+		<li class="nav-header">{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</li>
+		{% for choice in choices %}
+			<li class="action {% if choice.selected %} active{% endif %}">
+				<a href="{{ choice.query_string|iriencode }}">{{ choice.display }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>

@@ -1,0 +1,115 @@
+{% extends "base_app.html" %}
+{% load i18n admin_static admin_list %}
+{% load admin_urls %}
+
+{% block title %} {%trans 'List'%} {{module_name}} {% endblock %}
+
+{% block css %}
+
+	{% if LANGUAGE_BIDI %}
+		<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />
+	{% endif %}
+	
+	{{ media.css }}
+
+{% endblock css %}
+
+{% block javascript %}
+	<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+
+	
+	{% if cl.formset or action_form %}
+		<script type="text/javascript" src="{% url 'jsi18n' %}"></script>
+	{% endif %}
+
+	{% if not actions_on_top and not actions_on_bottom %}
+		<style>
+			#changelist table thead th:first-child {width: inherit}
+		</style>
+	{% endif %}
+	{{ media.js }}
+	<script type="text/javascript">
+
+		{% if action_form %}{% if actions_on_top or actions_on_bottom %}
+		$(function($) {
+		    $(document).ready(function($) {
+		        $(".actions").actions();
+		    });
+		});
+		{% endif %}{% endif %}
+		$(function() {
+			$('#filters').on('hide', function () {
+				$('#filters').css('overflow', 'hidden')
+				$('.filters .icon').removeClass('icon-minus').addClass('icon-plus')
+			})
+			$('#filters').on('show', function () {
+				$('#filters').css('overflow', 'visible')
+				$('.filters .icon').removeClass('icon-plus').addClass('icon-minus')
+			})
+		})
+	</script>
+{% endblock javascript %}
+
+{% block content %}
+	<div id="content-main" class="container-fluid-full">
+
+			<div class="row-fluid">
+				<div class="span10">
+					{% search_form cl %}
+				</div>		
+
+				{% if cl.has_filters %}
+					<div class="span2 filters" style="margin: 10px 0 10px">
+						<a class="btn btn-primary" data-toggle="collapse" href="#filters">
+					    	{% trans 'Filters' %}
+					    	{% if active_filters %} 
+					    		<i class="icon icon-minus"></i>
+					    	{% else %}
+					    		<i class="icon icon-plus"></i>
+					    	{% endif %}
+						</a>					
+					</div>
+				{% endif %}
+			</div>
+			<div class="collapse {% if active_filters %} in {% endif %} filter-wrapper" id="filters">
+				<div class="row-fluid">
+					{% if cl.has_filters %}
+						{% for spec in cl.filter_specs %}
+							<div class="span2">
+								{% admin_list_filter cl spec %}
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+			<div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+				<form id="changelist-form" action="" method="post"{% if cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %}>{% csrf_token %}	
+					<div>
+						{% if action_form and cl.full_result_count %}
+							{% admin_actions %}
+						{% endif %}
+					</div>
+					{% block result_list %}
+						{% result_list cl %}
+					{% endblock %}
+					{% block pagination %}{% pagination cl %}{% endblock %}
+
+					{% if has_add_permission %}
+						<div class="row-fluid">
+							<a href="{% url cl.opts|admin_urlname:'add' %}" class="btn btn-success "> 
+								{%trans 'New'%} {{cl.opts.verbose_name}} 
+							</a>
+						</div>
+					{% endif %}
+				</form>
+			</div>
+
+	</div>
+{% endblock %}
+{% block sidebar %}
+
+	<div class="row-fluid">
+		{% block date_hierarchy %}{% date_hierarchy cl %}{% endblock %}
+	</div>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+
+{% extends "base_app.html" %}
+{% load admin_urls view_tag %}
+{% load i18n staticfiles %} 
+
+{% block title %} 
+{% trans 'View' %} {% get_module_name %} - {{instance}} 
+{% endblock %}
+
+{% block css %}
+<style type="text/css">
+	.detail-table th {
+		width : 30%;
+		padding: 2px;
+	}
+	.detail-table td {
+		padding: 2px;
+	}
+	
+</style>
+{% endblock css %}
+
+{% block card %}
+{% endblock card%}
+
+{% block content %}
+
+
+{% instance_card %}
+
+<hr style="margin:0px 0px 10px">
+
+<div id="content-main">
+	{% for page in pages %}
+		<div class="box">
+			<div class="header">
+                {% if page.icon %}
+				    <i class="{{ page.icon }}"></i>
+                {% else %}
+                    <i class="icon-user"></i>
+                {% endif %}
+				<span class="break"></span>
+				<span class="title">{{page.label}}</span>
+			</div>
+			<div class="box-content">
+				{{page}}
+			</div>
+		</div>
+	{% endfor %}
+	{% block after_pages %}
+		<div class="row-fluid">
+			<div class="offset8 span4">
+				<div class="row-fluid">
+					{% for edit_url in edit_urls %}
+						<div class="span4">
+							<a href="{{edit_url.1}}" class="btn btn-small btn-primary "> 
+								{{edit_url.0}}
+							</a>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endblock %}	
+</div>
+{% block modals %}
+{% endblock modals %}
+{% endblock content%}
+
+{% block sidebar %}
+
+<div class="side-image" >
+    {% instance_photo 64 instance True %}
+</div>
+
+
+<div class="menu">
+	<ul class="nav nav-list">
+		{% if detail_pages %}
+			<li class="nav-header"> {% get_module_name %} </li>
+		{% endif %}
+		{% for page in detail_pages %}
+			<li {% if page.name == active_page.name %} class="active" {% endif %}>
+				<a href="detail?page={{page.name}}">{{page.label}}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+	
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock javascript %}
