@@ -72,8 +72,9 @@ class Site(admin.AdminSite):
         Displays the main admin index page, which lists all of the installed
         apps that have been registered in this site.
         """
+        items =self.get_menu_items(request)
         if hasattr(request, 'user') and not isinstance(request.user, AnonymousUser):
-            app_name = self.get_menu_items(request)[0].name
+            app_name = self.get_menu_items(request)[0].name if items else ''
             return self.app_index(request,app_name)
         else:
             return self.login(request)
@@ -93,21 +94,23 @@ class Site(admin.AdminSite):
         return request.user.is_authenticated() and request.user.is_active
 
     def app_index(self, request, app_label):
+        print request.user.has_module_perms(app_label)
         if request.user.has_module_perms(app_label):
             enabled= {}
+            print 'uai?'
             app = self.get_menu_item(request,app_label)
             request.session['app'] = app
-
+            print 'uai?'
             for Widget in app.widgets:
                 widget = Widget(request)
                 if widget.show_widget():
                     enabled[widget.name] = widget
-
+            print 'uai?'
             context = {
                 'active_model': None,
                 'widgets': enabled
             }
-
+            print 'uai?'
             return TemplateResponse(request, app.template or [
                 '%s/app_index.html' % app_label,
                 'app_index.html'

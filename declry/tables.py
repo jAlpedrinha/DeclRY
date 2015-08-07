@@ -1,6 +1,6 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from scholradmin.util import get_value_from_accessor
+from declry.util import get_value_from_accessor
 class TableField(object):
     header_levels = 1
 

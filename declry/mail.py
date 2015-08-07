@@ -9,10 +9,10 @@ from threading import local
 class Mailer(local):
 
     def login(self):
-        self.server = smtplib.SMTP('smtp.gmail.com:587')
+        self.server = smtplib.SMTP('')
         self.server.ehlo()
         self.server.starttls()
-        self.server.login('secretaria@institutonunalvres.pt', 'mkkwulat')
+        self.server.login()
     
     def addheader(self, message, headername, headervalue):
         if self.containsnonasciicharacters(headervalue):
@@ -32,7 +32,7 @@ class Mailer(local):
 
         msg = MIMEMultipart('alternative')
         msg = self.addheader(msg, 'Subject', subject)
-        msg['From'] = 'secretaria@institutonunalvres.pt'
+        msg['From'] = ''
         msg['To'] = to
 
         if(self.containsnonasciicharacters(email_txt)):
@@ -41,7 +41,7 @@ class Mailer(local):
             plaintext = MIMEText(email_txt,'plain')
         msg.attach(plaintext)
 
-        self.server.sendmail('helpdesk@scholr.net', [to], msg.as_string())
+        self.server.sendmail('', [to], msg.as_string())
         self.quit()
 
     def quit(self):

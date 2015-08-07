@@ -22,9 +22,9 @@ from django.utils.html import escape
 from functools import update_wrapper
 import logging
 
-from scholradmin.detail_view import DetailView, ResumeView
-from scholradmin.forms import BootstrapModelForm
-from scholradmin.util import get_deleted_objects, get_object_or_none
+from declry.detail_view import DetailView, ResumeView
+from declry.forms import BootstrapModelForm
+from declry.util import get_deleted_objects, get_object_or_none
 csrf_protect_m = method_decorator(csrf_protect)
 
 session_logger = logging.getLogger('session')
@@ -44,6 +44,7 @@ class Application(admin.ModelAdmin):
         from django.conf.urls import patterns, url
 
         def wrap_permissions(key, view):
+            print 'YAAA'
             view = wrap(view)
             def wrapper(request, *args, **kwargs):
                 obj = None

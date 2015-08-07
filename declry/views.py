@@ -6,7 +6,7 @@ from django.forms.widgets import HiddenInput
 from django.shortcuts import get_object_or_404
 from vanilla import FormView
 from django.utils.translation import ugettext_lazy as _
-from scholradmin.forms import BootstrapModelForm
+from declry.forms import BootstrapModelForm
 from django import http
 from django.utils.decorators import classonlymethod
 from django.template import (RequestContext,
@@ -241,7 +241,7 @@ def permission_denied(request, template_name='403.html'):
     If the template does not exist, an Http403 response containing the text
     "403 Forbidden" (as per RFC 2616) will be returned.
     """
-
+    print "YAAAA"
     email_txt="""
     Erro 403 
     Path: {}
@@ -254,20 +254,7 @@ def permission_denied(request, template_name='403.html'):
     user = request.user if hasattr(request, 'user') else '?'
     roles = request.user.roles if hasattr(request, 'user') and hasattr(request.user,'roles') else '---'
     session_logger.error(u'{} with cookies {}, user: {}, roles: {}'.format(request.path, request.COOKIES, user, roles))
-    email = email_txt.format(request.path, request.COOKIES, user, roles)
 
-
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.ehlo()
-    server.starttls()
-    server.login('alexandrerua@institutonunalvres.pt', 'xolagut855')
-    msg = MIMEText(email)
-    msg['Subject'] = 'Scholr 403 Alert'
-    msg['From'] = 'helpdesk@scholr.net'
-    msg['To'] = 'helpdesk@scholr.net, jalpedrinharamos@gmail.com, alexandrerua@institutonunalvres.pt'
-    server.sendmail('info@institutonunalvres.pt', ['helpdesk@scholr.net', 'jalpedrinharamos@gmail.com', 'alexandrerua@institutonunalvres.pt'], msg.as_string())
-
-    server.quit()
     try:
         template = loader.get_template(template_name)
     except TemplateDoesNotExist:

@@ -2,7 +2,7 @@
 # has been referenced in documentation.
 from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from main_application import Site
-
+import settings
 
 def autodiscover():
 	"""
