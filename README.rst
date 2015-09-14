@@ -4,7 +4,7 @@ D(ecl)RY
 DRY framework for Django
 DeclRY is inspired by Django-admin, made for user facing webapps instead of backend
 
-Currently missing some TLC to become an independent project.
+This project is part of an effort to bring some tools from a closed project into open source community. Currently missing some TLC. News to come
 
 Getting Started
 -------------
